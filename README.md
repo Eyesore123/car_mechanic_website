@@ -1,1 +1,1 @@
-# A website for a small car mechanic workshop.
+# A website for a car mechanic workshop.
