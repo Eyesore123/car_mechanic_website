@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" type="image/x-icon" href="/path/to/favicon.ico"> <!-- for Google to add the icon to Google search -->
+    <link rel="icon" type="image/x-icon" href="./Assets/49678197.png">
+    <title>PNP-POWER</title>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        // Get the canvas element and its context
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let gradientOffset = 0;
+        let direction = 0;
+        let fadeAmount = 0; // Variable to control the fade amount
+        let fadeDirection = 1; // 1 for fading in, -1 for fading out
+
+        function resizeCanvas() {
+            const newWidth = window.innerWidth * window.devicePixelRatio;
+            const newHeight = window.innerHeight * window.devicePixelRatio;
+
+            // Update canvas size only if it has changed
+            if (canvas.width !== newWidth || canvas.height !== newHeight) {
+                canvas.width = newWidth;
+                canvas.height = newHeight;
+            }
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas(); // Initial resize
+
+        function drawGradient() {
+            // Clear the canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // Create a new linear gradient with dynamic direction
+            let gradient;
+            if (direction === 0) {
+                // Horizontal gradient (left to right)
+                gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+            } else if (direction === 90) {
+                // Vertical gradient (top to bottom)
+                gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            } else if (direction === 180) {
+                // Diagonal (top-left to bottom-right)
+                gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            } else if (direction === 270) {
+                // Reverse diagonal (top-right to bottom-left)
+                gradient = ctx.createLinearGradient(canvas.width, 0, 0, canvas.height);
+            }
+
+            // Define color stops with a fade effect
+            const whiteAlpha = Math.abs(Math.sin(fadeAmount)); // Calculate alpha based on fadeAmount
+            gradient.addColorStop(0, '#00b0df');
+            gradient.addColorStop(0.5 + Math.sin(gradientOffset) * 0.5, `rgba(209, 233, 246, ${whiteAlpha * 0.85})`); // Use rgba for fading
+            gradient.addColorStop(1, '#00b0df');
+
+            // Use the dynamic gradient as the fill style
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            gradientOffset += 0.001;
+
+            // Change direction every time the offset exceeds a full cycle (arbitrary value of 2π)
+            if (gradientOffset > Math.PI * 2) {
+                // Reset the offset for the next cycle
+                gradientOffset = 0;
+
+                // Change direction by 90 degrees
+                direction = (direction + 90) % 360; // Cycle through 0, 90, 180, 270
+            }
+
+            // Fade effect logic
+            fadeAmount += fadeDirection * 0.5; // Adjust the fade speed
+            if (fadeAmount > Math.PI / 2 || fadeAmount < 0) {
+                fadeDirection *= -.4; // Reverse fade direction when limits are reached
+            }
+
+            requestAnimationFrame(drawGradient);
+        }
+
+        drawGradient();
+    </script>
+
+    <div class="content">
+        <h1 class="title">
+            <img id="icon" src="./Assets/49678197.png" alt="PNP-POWER" width="100px" height="100px">Henkilöautojen huolto ja korjaus
+        </h1>
+        <br>
+        <br>
+        <div class="container">
+            <h2>RENKAIDEN MYYNTI JA RENGASTYÖT</h2>
+            <p class="paragraph">Kysy tarjous! Hyvin kokoja hyllyssä! 
+                <!-- Esim. Ovation 205/55/16 sarja alle asennettuna&nbsp; <span class="bigger"><span style="color:red">260€</span></span> -->
+            </p>
+        </div>
+        <div class="container">
+            <h2>ILMASTOINTIHUOLLOT</h2>
+            <br>
+            <p class="paragraph">Sis. 200g kylmäainetta (r134a)&nbsp; <span class="bigger"><span style="color:red">45€&nbsp;</span></span></p>
+            <p class="paragraph">Sis. 50g kylmäainetta (r123yf)&nbsp; <span class="bigger"><span style="color:red">60€</span></span></p>
+        </div>
+        <div class="container">
+            <p><h2>LISÄKSI MEILTÄ SAA:</h2></p> 
+            <ul class="carlist">
+                <li>Tig-hitsaus (myös alumiini) vanteet yms.</li>
+                <li>Pakosarjojen ja muiden erikoisosien valmistus</li>
+                <li>Johtosarjojen suunnittelu ja valmistus</li>
+                <li>Sorvaus- ja jyrsintyöt, taso-oikaisut yms.</li>
+                <li>2wd autojen tehomittaukset ja säädöt sekä viranomaistodistus muutoskatsastusta varten</li>
+                <li>Vikadiagnostiikka</li>
+                <li>Varaosien myynti</li>
+                <li>Trailerikuljetuspalvelut, henkilöautojen nouto/vienti kotipihasta yms.</li>
+            </ul>
+        </div>
+        <div class="container">
+            <p id="contactinfo">Niko Putkinen
+                <br>
+                xxx xxx xxxx
+                <br>
+                xxxxxxxxxx xxx
+                <br>
+                xxxxx Rxxxxxxxxx
+                <br>
+                Y-tunnus: xxxxxx-x
+            </p>
+        </div>
+
+        <br><br><br>
+        <a href="yhteydenotto.php"><button class="gallery-button" type="button" id="yhteydenottopainike" name="gallerybutton">Yhteydenottolomake</button></a>
+        <br><br>
+
+        <div class="container" id="sopimuksenmukaancontainer">
+            <img src="./Assets/mainoskuva_kakkonen.png" id="sopimuksenmukaan" width="220px" alt="aukisopimuksenmukaan">
+        </div>
+
+        <div class="wrapper">
+            <a href="galleria.html"><div class="buttoncontainer"><button class="gallery-button" type="button" name="gallerybutton">Galleria</button>
+            </div></a>
+        </div>
+    </div>
+
+    <footer class="footer" style="text-align: center">
+        <p class="footer-text">&copy; 2024 PNP-POWER, Niko Putkinen.</p>
+    </footer>
+</body>
+</html>
