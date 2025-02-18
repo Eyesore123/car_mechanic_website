@@ -1,1 +1,3 @@
 # A website for a car mechanic workshop.
+
+I used HTML, CSS, and JavaScript to create a simple website for a car mechanic workshop. On the backend I used PHP for form submission but then switched to using Formspree after having troubles with ports and stuff. My hosting service provider didn't have support for Node.js so I first created a backend with that but couldn't use it. Currently submit_form.php file handles the redirect after Formspree first handles the form submission. I've included server files for PHP and Node.js inside "Server files for node and php" folder. PHP works out of the box, but Node.js backend solution requires some additional setup with the files that are included.
